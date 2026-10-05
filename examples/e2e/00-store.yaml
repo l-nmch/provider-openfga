@@ -1,0 +1,14 @@
+# A store is a container for authorization data. Its OpenFGA name comes from
+# spec.forProvider.name, not from metadata.name: OpenFGA identifies a store by
+# a ULID it assigns, which becomes the external name.
+apiVersion: store.openfga.m.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  name: xptest
+  namespace: xptest
+spec:
+  forProvider:
+    name: xptest
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default

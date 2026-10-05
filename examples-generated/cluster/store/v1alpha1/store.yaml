@@ -1,0 +1,11 @@
+apiVersion: store.openfga.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: store/v1alpha1/store
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example_store_name

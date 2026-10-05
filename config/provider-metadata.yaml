@@ -1,0 +1,92 @@
+name: openfga
+resources:
+    openfga_authorization_model:
+        subCategory: ""
+        description: Provides the ability to create and manage OpenFGA authorization models. An authorization model defines one or more type definitions and optionally a set of conditions. Together with relationship tuples, the authorization model determines whether a relationship exists between a user and an object. ~> We suggest using openfga_authorization_model_document ../data-sources/authorization_model_document when assigning a value to model_json. This allows to use models in different formats (e.g. DSL, JSON, Terraform native) and prevents potential complications arising from formatting discrepancies, whitespace inconsistencies, and other nuances inherent to JSON.
+        name: openfga_authorization_model
+        title: openfga_authorization_model Resource - openfga
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "model_json": "${data.openfga_authorization_model_document.example.result}",
+                  "store_id": "${openfga_store.example.id}"
+                }
+              references:
+                model_json: data.openfga_authorization_model_document.example.result
+                store_id: openfga_store.example.id
+              dependencies:
+                openfga_store.example: |-
+                    {
+                      "name": "example_store_name"
+                    }
+        argumentDocs:
+            id: (String) The unique ID of the authorization model.
+            model_json: (String) The authorization model definition in JSON format. Consider using openfga_authorization_model_document to set this field.
+            store_id: (String) The unique ID of the store this authorization model belongs to.
+        importStatements:
+            - |-
+              # Import with store ID and authorization model ID
+              terraform import openfga_authorization_model.example <store_id>/<authorization_model_id>
+    openfga_relationship_tuple:
+        subCategory: ""
+        description: Provides the ability to create and manage OpenFGA relationship tuples. A relationship tuple consists of a user, a relation, and an object. Tuples may include an additional condition, which has to be fulfilled for the tuple to be considered. Together with an authorization model, the relationship tuples determine whether a relationship exists between a user and an object.
+        name: openfga_relationship_tuple
+        title: openfga_relationship_tuple Resource - openfga
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "authorization_model_id": "${openfga_authorization_model.example.id}",
+                  "object": "document:document-1",
+                  "relation": "viewer",
+                  "store_id": "${openfga_authorization_model.example.store_id}",
+                  "user": "user:user-1"
+                }
+              references:
+                authorization_model_id: openfga_authorization_model.example.id
+                store_id: openfga_authorization_model.example.store_id
+              dependencies:
+                openfga_authorization_model.example: |-
+                    {
+                      "model_json": "${data.openfga_authorization_model_document.example.result}",
+                      "store_id": "${openfga_store.example.id}"
+                    }
+                openfga_store.example: |-
+                    {
+                      "name": "example_store_name"
+                    }
+        argumentDocs:
+            authorization_model_id: (String) The unique ID of the authorization model this relationship tuple is related with. Can be left blank to refer to the latest authorization model.
+            condition: (Attributes) A condition of the relationship tuple. (see below for nested schema)
+            context_json: (String) The (partial) context under which the condition is evaluated.
+            name: (String) The name of the condition.
+            object: (String) The object of the relationship tuple.
+            relation: (String) The relation of the relationship tuple.
+            store_id: (String) The unique ID of the store this relationship tuple belongs to.
+            user: (String) The user of the relationship tuple.
+        importStatements:
+            - |-
+              # Import with store ID, user, relation and object (validated against latest authorization model)
+              terraform import openfga_relationship_tuple.example <store_id>/<user>/<relation>/<object>
+
+              # Import with store ID, authorization model ID, user, relation and object (validated against specified authorization model)
+              terraform import openfga_relationship_tuple.example <store_id>/<authorization_model_id>/<user>/<relation>/<object>
+    openfga_store:
+        subCategory: ""
+        description: Provides the ability to create and manage OpenFGA stores. A store is a logical container for authorization data. Each store contains one or more versions of an authorization model and can contain various relationship tuples. Separate stores can be created for separate authorization needs or isolated environments, e.g. development/ prod.
+        name: openfga_store
+        title: openfga_store Resource - openfga
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example_store_name"
+                }
+        argumentDocs:
+            id: (String) The unique ID of the store.
+            name: (String) The name of the store.
+        importStatements:
+            - |-
+              # Import with store ID
+              terraform import openfga_store.example <store_id>

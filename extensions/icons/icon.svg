@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>provider-openfga</title>
+  <rect width="256" height="256" rx="48" fill="#1b2340"/>
+  <!-- A relationship tuple: a user, related to an object, through a relation
+       that is itself reachable from a group. Fine-grained authorization as a
+       graph, which is what a store holds. -->
+  <g stroke="#5c6b8f" stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M78 76 L178 76"/>
+    <path d="M78 76 L78 180"/>
+    <path d="M78 180 L178 180"/>
+    <path d="M178 76 L178 180"/>
+    <path d="M78 76 L178 180"/>
+  </g>
+  <g stroke="#1b2340" stroke-width="5">
+    <circle cx="78" cy="76" r="25" fill="#8fd3c7"/>
+    <circle cx="178" cy="76" r="20" fill="#ffb37a"/>
+    <circle cx="78" cy="180" r="20" fill="#9aa8c7"/>
+    <circle cx="178" cy="180" r="25" fill="#f2785c"/>
+  </g>
+</svg>

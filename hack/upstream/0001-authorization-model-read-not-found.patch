@@ -1,0 +1,39 @@
+From: provider-openfga maintainers
+Subject: [PATCH] fix(authorization model): remove from state when it no longer exists
+
+The store resource and the relationship tuple resource both drop themselves
+from the Terraform state when OpenFGA answers that they are gone, so that
+Terraform plans a create instead of failing. The authorization model resource
+does not, even though apierror.IsStatusNotFound already special-cases
+`authorization_model_not_found`, so a refresh of a model that does not exist
+fails the whole run:
+
+    Error: Client Error
+    Unable to read authorization model, got error: GET validation error for
+    ReadAuthorizationModel GET with body
+    {"code":"authorization_model_not_found","message":"Authorization Model
+    '...' not found"}
+
+That breaks `terraform plan` after a model is deleted out of band, and it
+breaks any tool that refreshes a resource before creating it, which is how
+Crossplane providers generated with Upjet observe a resource.
+
+This mirrors the store resource's Read exactly.
+
+--- a/internal/provider/authorizationmodel/authorization_model_resource.go
++++ b/internal/provider/authorizationmodel/authorization_model_resource.go
+@@
+ 	authorizationModelModel, err := r.client.ReadAuthorizationModel(ctx, state.StoreId.ValueString(), state.AuthorizationModelModel)
+ 	if err != nil {
++		if internalError.IsStatusNotFound(err) {
++			resp.Diagnostics.AddWarning(
++				"Authorization model not found",
++				fmt.Sprintf("Authorization model %q no longer exists; removing from state.", state.Id.ValueString()),
++			)
++			resp.State.RemoveResource(ctx)
++			return
++		}
++
+ 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read authorization model, got error: %s", err))
+ 		return
+ 	}

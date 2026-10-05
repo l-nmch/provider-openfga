@@ -1,0 +1,39 @@
+# NOTE: this does not reconcile with terraform-provider-openfga 0.5.1. Its
+# openfga_authorization_model errors instead of reporting the model as absent
+# when refreshed before it exists, so Crossplane never gets to create it. See
+# the README and hack/upstream/. The Store and the tuples below do work.
+#
+# An authorization model, written in the OpenFGA DSL. modelDsl is converted to
+# the canonical JSON form by the provider; modelJson takes that JSON directly.
+# Exactly one of the two is set.
+#
+# Models are immutable and versioned: changing modelDsl writes a new version
+# and leaves the previous one in place, and deleting this resource does not
+# remove it from the store either, since OpenFGA has no delete operation for
+# authorization models.
+apiVersion: model.openfga.m.crossplane.io/v1alpha1
+kind: AuthorizationModel
+metadata:
+  name: xptest
+  namespace: xptest
+spec:
+  forProvider:
+    storeIdRef:
+      name: xptest
+    modelDsl: |
+      model
+        schema 1.1
+
+      type user
+
+      type group
+        relations
+          define member: [user]
+
+      type project
+        relations
+          define admin: [user, group#member]
+          define viewer: [user, group#member] or admin
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default

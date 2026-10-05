@@ -1,0 +1,42 @@
+# Relationship tuples. Every field requires replacement, so editing one
+# deletes and rewrites the tuple; the resource has no OpenFGA identifier of its
+# own and is addressed by
+# <store_id>[/<authorization_model_id>]/<user>/<relation>/<object>.
+#
+# authorizationModelId is left unset here, so the tuples are validated against
+# the store's latest model. Add authorizationModelIdRef to pin them to the
+# AuthorizationModel in 10-model.yaml and have them created after it, once the
+# upstream fix in hack/upstream/ has shipped; until then that reference would
+# never resolve. The store must already hold a model for a tuple to be
+# written.
+apiVersion: tuple.openfga.m.crossplane.io/v1alpha1
+kind: RelationshipTuple
+metadata:
+  name: xptest-admin
+  namespace: xptest
+spec:
+  forProvider:
+    storeIdRef:
+      name: xptest
+    user: user:xptest@example.org
+    relation: admin
+    object: project:xptest
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default
+---
+apiVersion: tuple.openfga.m.crossplane.io/v1alpha1
+kind: RelationshipTuple
+metadata:
+  name: xptest-member
+  namespace: xptest
+spec:
+  forProvider:
+    storeIdRef:
+      name: xptest
+    user: user:xptest@example.org
+    relation: member
+    object: group:xptest
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default

@@ -1,0 +1,50 @@
+apiVersion: tuple.openfga.crossplane.io/v1alpha1
+kind: RelationshipTuple
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tuple/v1alpha1/relationshiptuple
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    authorizationModelIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    object: document:document-1
+    relation: viewer
+    storeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    user: user:user-1
+
+---
+
+apiVersion: model.openfga.crossplane.io/v1alpha1
+kind: AuthorizationModel
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tuple/v1alpha1/relationshiptuple
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    modelJson: ${data.openfga_authorization_model_document.example.result}
+    storeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: store.openfga.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tuple/v1alpha1/relationshiptuple
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example_store_name
