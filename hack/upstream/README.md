@@ -2,9 +2,12 @@
 
 Changes this provider needs in
 [`openfga/terraform-provider-openfga`](https://github.com/openfga/terraform-provider-openfga),
-kept here until they are merged and released. Nothing here is applied
-automatically: the provider image uses the released upstream binary, as
-`TERRAFORM_PROVIDER_VERSION` in the Makefile pins it.
+kept here until they are merged and released. The provider image builds
+`terraform-provider-openfga` from source at `TERRAFORM_PROVIDER_VERSION` (see
+`cluster/images/provider-openfga/Dockerfile`) and applies every `*.patch` of
+this directory before compiling, in file name order. Patches are plain `git
+apply` diffs against that tag; a patch that no longer applies fails the image
+build. Remove a patch once the pinned upstream release carries it.
 
 ## 0001-authorization-model-read-not-found.patch
 
@@ -20,6 +23,12 @@ that refresh answers "gone" and Crossplane creates them; for an authorization
 model it fails, so `AuthorizationModel` cannot be created. See the
 corresponding note in the repository README.
 
-Status: present in v0.5.1 and on `main` as of 2026-10-05. Once a release
-carries the fix, bump `TERRAFORM_PROVIDER_VERSION` and run `make generate`;
-this provider needs no other change.
+Status: present in v0.5.1 and on `main` as of 2026-10-05, applied at image
+build since this provider's next release. Once an upstream release carries
+the fix, bump `TERRAFORM_PROVIDER_VERSION`, run `make generate` and delete the
+patch.
+
+Checked against a real OpenFGA server with a hand-written state holding a model
+that does not exist: v0.5.1 fails the refresh with `authorization_model_not_found`,
+the patched build drops the resource from the state, which is what lets Upjet
+plan a create.

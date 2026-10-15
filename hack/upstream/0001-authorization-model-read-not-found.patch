@@ -20,9 +20,21 @@ Crossplane providers generated with Upjet observe a resource.
 
 This mirrors the store resource's Read exactly.
 
+diff --git a/internal/provider/authorizationmodel/authorization_model_resource.go b/internal/provider/authorizationmodel/authorization_model_resource.go
+index 42c5e05..85197b2 100644
 --- a/internal/provider/authorizationmodel/authorization_model_resource.go
 +++ b/internal/provider/authorizationmodel/authorization_model_resource.go
-@@
+@@ -13,6 +13,8 @@ import (
+ 	"github.com/hashicorp/terraform-plugin-framework/types"
+ 
+ 	"github.com/openfga/go-sdk/client"
++
++	internalError "github.com/openfga/terraform-provider-openfga/internal/apierror"
+ )
+ 
+ // Ensure provider defined types fully satisfy framework interfaces.
+@@ -123,6 +125,15 @@ func (r *AuthorizationModelResource) Read(ctx context.Context, req resource.Read
+ 
  	authorizationModelModel, err := r.client.ReadAuthorizationModel(ctx, state.StoreId.ValueString(), state.AuthorizationModelModel)
  	if err != nil {
 +		if internalError.IsStatusNotFound(err) {
