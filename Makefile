@@ -13,8 +13,6 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 export TERRAFORM_PROVIDER_SOURCE ?= openfga/openfga
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/openfga/terraform-provider-openfga
 export TERRAFORM_PROVIDER_VERSION ?= 0.5.1
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-openfga
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/openfga/terraform-provider-openfga/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-openfga_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH ?= docs/resources
 

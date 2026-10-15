@@ -1,7 +1,7 @@
-# NOTE: this does not reconcile with terraform-provider-openfga 0.5.1. Its
-# openfga_authorization_model errors instead of reporting the model as absent
-# when refreshed before it exists, so Crossplane never gets to create it. See
-# the README and hack/upstream/. The Store and the tuples below do work.
+# NOTE: this needs terraform-provider-openfga to carry hack/upstream/0001: the
+# image of this provider builds it with that patch applied. With the released
+# 0.5.1 binary the resource errors instead of reporting the model as absent
+# when refreshed before it exists, so Crossplane never gets to create it.
 #
 # An authorization model, written in the OpenFGA DSL. modelDsl is converted to
 # the canonical JSON form by the provider; modelJson takes that JSON directly.

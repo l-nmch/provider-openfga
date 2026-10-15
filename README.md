@@ -84,11 +84,11 @@ the authority into the pod and setting `SSL_CERT_FILE` through a
 The Terraform provider has no option to skip TLS verification, and neither
 does this one.
 
-## Known limitation: AuthorizationModel cannot be created yet
+## AuthorizationModel needs a patched terraform-provider-openfga
 
-`Store` and `RelationshipTuple` work. **`AuthorizationModel` does not, with
-terraform-provider-openfga 0.5.1**, because of a gap upstream rather than
-anything in this provider.
+`Store` and `RelationshipTuple` work with the released
+terraform-provider-openfga 0.5.1. **`AuthorizationModel` does not**, because of
+a gap upstream rather than anything in this provider.
 
 Upjet observes a managed resource by refreshing a Terraform state it builds
 out of the resource's parameters, before the resource exists. `openfga_store`
@@ -103,15 +103,12 @@ read authorization model, got error: ... {"code":"authorization_model_not_found"
 ```
 
 Upstream's `apierror.IsStatusNotFound` already recognises that error code; the
-model resource simply never calls it. The three-line fix is in
-[`hack/upstream/`](hack/upstream/), ready to send as a pull request. Once a
-release carries it, bump `TERRAFORM_PROVIDER_VERSION` in the Makefile and run
-`make generate` — this provider needs no other change.
-
-Until then, create authorization models with the `fga` CLI or the OpenFGA API
-and let tuples resolve against the store's latest model (leave
-`authorizationModelId` unset). The `AuthorizationModel` kind is still shipped,
-so it starts working on a version bump alone.
+model resource simply never calls it. The fix is in
+[`hack/upstream/`](hack/upstream/): the container image builds
+terraform-provider-openfga from source at the pinned tag and applies it, so
+`AuthorizationModel` creates models, including the first one of an empty store.
+Once an upstream release carries the fix, bump `TERRAFORM_PROVIDER_VERSION` in
+the Makefile, run `make generate` and delete the patch.
 
 ## Usage notes
 
@@ -219,13 +216,15 @@ Worth checking by hand, since neither is covered by a unit test: editing a
 
 This provider is licensed under the [Apache License 2.0](LICENSE).
 
-Its container image also ships third-party binaries, redistributed unmodified
-under their own license, whose source code is available upstream:
+Its container image also ships third-party binaries under their own license,
+whose source code is available upstream (the Terraform CLI is redistributed
+unmodified, terraform-provider-openfga is built from source with the patches of
+`hack/upstream/`):
 
 | Component | Version | License | Source |
 |---|---|---|---|
 | Terraform CLI | 1.5.7 | MPL-2.0 | https://github.com/hashicorp/terraform/tree/v1.5.7 |
-| terraform-provider-openfga | 0.5.1 | Apache-2.0 | https://github.com/openfga/terraform-provider-openfga/tree/v0.5.1 |
+| terraform-provider-openfga | 0.5.1, built from source with [hack/upstream](hack/upstream/) patches | Apache-2.0 | https://github.com/openfga/terraform-provider-openfga/tree/v0.5.1 |
 
 Resource and field descriptions in the CRDs are derived from the
 terraform-provider-openfga documentation (Apache-2.0).
