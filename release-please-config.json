@@ -6,7 +6,21 @@
   "include-component-in-tag": false,
   "packages": {
     ".": {
-      "changelog-path": "extensions/release-notes/release_notes.md"
+      "changelog-path": "extensions/release-notes/release_notes.md",
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "examples/install.yaml"
+        },
+        {
+          "type": "generic",
+          "path": "extensions/readme/readme.md"
+        },
+        {
+          "type": "generic",
+          "path": "package/crossplane.yaml"
+        }
+      ]
     }
   }
 }
