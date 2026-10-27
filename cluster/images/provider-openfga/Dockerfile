@@ -1,7 +1,7 @@
 # Build terraform-provider-openfga from source with the patches of hack/upstream applied: the
 # released binary does not carry them, see hack/upstream/README.md. Built on the build platform,
 # cross-compiled for the target.
-FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS tfprovider
+FROM --platform=$BUILDPLATFORM golang:1.26.10-alpine AS tfprovider
 RUN apk --no-cache add git
 ARG TARGETOS
 ARG TARGETARCH
@@ -12,6 +12,19 @@ RUN git clone --depth 1 --branch "v${TERRAFORM_PROVIDER_VERSION}" "${TERRAFORM_P
 WORKDIR /src
 COPY upstream/ /patches/
 RUN for p in /patches/*.patch; do git apply --verbose "$p" || exit 1; done
+# The released terraform-provider-openfga pins dependencies with known vulnerabilities in its go.mod
+# (govulncheck on the binary). Raised here until upstream does, and tracked by Renovate through the
+# markers: drop an ARG once the pinned upstream version already requires at least that version.
+# renovate: datasource=go depName=golang.org/x/net
+ARG GO_X_NET_VERSION=v0.60.0
+# renovate: datasource=go depName=golang.org/x/text
+ARG GO_X_TEXT_VERSION=v0.42.0
+# renovate: datasource=go depName=google.golang.org/grpc
+ARG GRPC_VERSION=v1.83.2
+# renovate: datasource=go depName=go.opentelemetry.io/otel
+ARG OTEL_VERSION=v1.45.0
+RUN go get "golang.org/x/net@${GO_X_NET_VERSION}" "golang.org/x/text@${GO_X_TEXT_VERSION}" \
+    "google.golang.org/grpc@${GRPC_VERSION}" "go.opentelemetry.io/otel@${OTEL_VERSION}" && go mod tidy
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     go build -trimpath -ldflags "-s -w -X main.version=${TERRAFORM_PROVIDER_VERSION}" \
     -o "/out/${TERRAFORM_NATIVE_PROVIDER_BINARY}" .
