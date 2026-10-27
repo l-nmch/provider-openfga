@@ -118,6 +118,15 @@
   "vulnerabilityAlerts": {"enabled": true},
   "packageRules": [
     {
+      // google.golang.org/grpc 1.85.0 does not compile with terraform-plugin-framework 1.15 (cannot use
+      // &Server{} as tfprotov5.ProviderServer), which this provider builds into the Terraform provider
+      // of the image. The package name is the same for go.mod and for the ARG of the Dockerfile, so the
+      // rule holds both. Lift it once terraform-plugin-framework moves.
+      "matchDatasources": ["go"],
+      "matchPackageNames": ["google.golang.org/grpc"],
+      "allowedVersions": "<1.85.0"
+    },
+    {
       "description": "The go directive of go.mod and the Go of the publish workflow move together, in one PR: the CI builds with the first, the published package with the second, and a vulnerability of the standard library is only fixed once both are bumped",
       "matchPackageNames": ["go", "golang"],
       "groupName": "go toolchain"
