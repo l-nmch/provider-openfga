@@ -52,6 +52,8 @@ jobs:
       - name: Report native schema version changes
         if: github.event_name == 'pull_request'
         run: |
+          # The checkout of a pull request has no local branch of its base, which the target reads
+          git fetch --no-tags --depth=1 origin "${GITHUB_BASE_REF}:${GITHUB_BASE_REF}"
           make schema-version-diff
 
 
@@ -98,6 +100,20 @@ jobs:
         uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
         with:
           version: ${{ env.GOLANGCI_VERSION }}
+
+  # The Go standard library ships inside the provider binary: a vulnerability fixed by a new
+  # Go release is only caught by a scan of the code, not by the dependency alerts.
+  govulncheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Scan for known vulnerabilities
+        uses: golang/govulncheck-action@032d45514ae346b1db93c04b0c90b841c370344f # v1.1.0
+        with:
+          go-version-file: go.mod
+          go-package: ./...
 
   check-diff:
     runs-on: ubuntu-24.04
