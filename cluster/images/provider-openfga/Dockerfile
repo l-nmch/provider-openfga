@@ -1,7 +1,7 @@
 # Build terraform-provider-openfga from source with the patches of hack/upstream applied: the
 # released binary does not carry them, see hack/upstream/README.md. Built on the build platform,
 # cross-compiled for the target.
-FROM --platform=$BUILDPLATFORM golang:1.26.10-alpine AS tfprovider
+FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine AS tfprovider
 RUN apk --no-cache add git
 ARG TARGETOS
 ARG TARGETARCH
