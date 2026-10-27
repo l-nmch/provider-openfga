@@ -29,7 +29,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     go build -trimpath -ldflags "-s -w -X main.version=${TERRAFORM_PROVIDER_VERSION}" \
     -o "/out/${TERRAFORM_NATIVE_PROVIDER_BINARY}" .
 
-FROM alpine:3.23.4
+FROM alpine:3.24.3
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS
