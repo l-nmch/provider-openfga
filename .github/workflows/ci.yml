@@ -99,6 +99,20 @@ jobs:
         with:
           version: ${{ env.GOLANGCI_VERSION }}
 
+  # The Go standard library ships inside the provider binary: a vulnerability fixed by a new
+  # Go release is only caught by a scan of the code, not by the dependency alerts.
+  govulncheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Scan for known vulnerabilities
+        uses: golang/govulncheck-action@032d45514ae346b1db93c04b0c90b841c370344f # v1.1.0
+        with:
+          go-version-file: go.mod
+          go-package: ./...
+
   check-diff:
     runs-on: ubuntu-24.04
     needs: detect-noop
