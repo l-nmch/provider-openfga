@@ -25,14 +25,16 @@ metadata:
 
       ## Install
 
+      <!-- x-release-please-start-version -->
       ```yaml
       apiVersion: pkg.crossplane.io/v1
       kind: Provider
       metadata:
         name: provider-openfga
       spec:
-        package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.0
+        package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.2
       ```
+      <!-- x-release-please-end -->
 
       ```console
       kubectl apply -f provider.yaml
