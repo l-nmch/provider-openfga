@@ -52,6 +52,8 @@ jobs:
       - name: Report native schema version changes
         if: github.event_name == 'pull_request'
         run: |
+          # The checkout of a pull request has no local branch of its base, which the target reads
+          git fetch --no-tags --depth=1 origin "${GITHUB_BASE_REF}:${GITHUB_BASE_REF}"
           make schema-version-diff
 
 
