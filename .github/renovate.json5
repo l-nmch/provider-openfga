@@ -26,7 +26,7 @@
       "customType": "regex",
       "description": "Bump the Go version of the publish workflow",
       "managerFilePatterns": ["/^\\.github\\/workflows\\/publish-provider-package\\.ya?ml$/"],
-      "matchStrings": ["go-version:\\n\\s+description: [^\\n]*\\n\\s+default: '(?<currentValue>[^']+)'"],
+      "matchStrings": ["go-version: '(?<currentValue>[^']+)'"],
       "datasourceTemplate": "golang-version",
       "depNameTemplate": "go"
     },
