@@ -15,7 +15,7 @@ env:
 
 jobs:
   detect-noop:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       noop: ${{ steps.noop.outputs.should_skip }}
     steps:
@@ -28,7 +28,7 @@ jobs:
           do_not_skip: '["workflow_dispatch", "schedule", "push"]'
 
   report-breaking-changes:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
     steps:
@@ -58,7 +58,7 @@ jobs:
 
 
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -104,7 +104,7 @@ jobs:
   # The Go standard library ships inside the provider binary: a vulnerability fixed by a new
   # Go release is only caught by a scan of the code, not by the dependency alerts.
   govulncheck:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -116,7 +116,7 @@ jobs:
           go-package: ./...
 
   check-diff:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -159,7 +159,7 @@ jobs:
         run: make check-diff
 
   unit-tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -208,7 +208,7 @@ jobs:
           files: _output/tests/linux_amd64/coverage.txt
 
   local-deploy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -251,7 +251,7 @@ jobs:
         run: make local-deploy
 
   publish-artifacts:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - detect-noop
       - report-breaking-changes
