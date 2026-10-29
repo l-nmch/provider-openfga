@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-openfga
 spec:
-  package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.2 # x-release-please-version
+  package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.3 # x-release-please-version
