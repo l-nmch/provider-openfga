@@ -17,7 +17,7 @@ kind: Provider
 metadata:
   name: provider-openfga
 spec:
-  package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.2
+  package: xpkg.upbound.io/l-nmch/provider-openfga:v0.1.3
 ```
 <!-- x-release-please-end -->
 
