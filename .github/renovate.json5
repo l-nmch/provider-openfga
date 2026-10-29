@@ -127,6 +127,15 @@
       "allowedVersions": "<1.85.0"
     },
     {
+      // terraform-plugin-sdk/v2 2.38.0 and later pull terraform-plugin-go 0.31, whose ProviderServer has a
+      // GenerateResourceConfig method that terraform-plugin-framework 1.15 (from upjet) does not implement:
+      // the build fails with "*Server does not implement tfprotov5.ProviderServer". terraform-plugin-go is
+      // indirect, so capping the SDK holds it. Lift it once terraform-plugin-framework moves.
+      "matchDatasources": ["go"],
+      "matchPackageNames": ["github.com/hashicorp/terraform-plugin-sdk/v2"],
+      "allowedVersions": "<2.38.0"
+    },
+    {
       "description": "The go directive of go.mod and the Go of the publish workflow move together, in one PR: the CI builds with the first, the published package with the second, and a vulnerability of the standard library is only fixed once both are bumped",
       "matchPackageNames": ["go", "golang"],
       "groupName": "go toolchain"
