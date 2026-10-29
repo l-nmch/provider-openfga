@@ -16,13 +16,13 @@ RUN for p in /patches/*.patch; do git apply --verbose "$p" || exit 1; done
 # (govulncheck on the binary). Raised here until upstream does, and tracked by Renovate through the
 # markers: drop an ARG once the pinned upstream version already requires at least that version.
 # renovate: datasource=go depName=golang.org/x/net
-ARG GO_X_NET_VERSION=v0.60.0
+ARG GO_X_NET_VERSION=v0.62.0
 # renovate: datasource=go depName=golang.org/x/text
-ARG GO_X_TEXT_VERSION=v0.42.0
+ARG GO_X_TEXT_VERSION=v0.43.0
 # renovate: datasource=go depName=google.golang.org/grpc
-ARG GRPC_VERSION=v1.83.2
+ARG GRPC_VERSION=v1.84.0
 # renovate: datasource=go depName=go.opentelemetry.io/otel
-ARG OTEL_VERSION=v1.45.0
+ARG OTEL_VERSION=v1.47.0
 RUN go get "golang.org/x/net@${GO_X_NET_VERSION}" "golang.org/x/text@${GO_X_TEXT_VERSION}" \
     "google.golang.org/grpc@${GRPC_VERSION}" "go.opentelemetry.io/otel@${OTEL_VERSION}" && go mod tidy
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
