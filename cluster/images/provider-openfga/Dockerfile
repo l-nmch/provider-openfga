@@ -18,7 +18,7 @@ RUN for p in /patches/*.patch; do git apply --verbose "$p" || exit 1; done
 # renovate: datasource=go depName=golang.org/x/net
 ARG GO_X_NET_VERSION=v0.62.0
 # renovate: datasource=go depName=golang.org/x/text
-ARG GO_X_TEXT_VERSION=v0.43.0
+ARG GO_X_TEXT_VERSION=v0.44.0
 # renovate: datasource=go depName=google.golang.org/grpc
 ARG GRPC_VERSION=v1.84.0
 # renovate: datasource=go depName=go.opentelemetry.io/otel
