@@ -24,7 +24,7 @@ jobs:
       registry_org: l-nmch
       mirror: true
       version: ${{ github.event_name == 'push' && github.ref_name || github.event.inputs.version }}
-      go-version: '1.26.10'
+      go-version: '1.27.4'
       cleanup-disk: true
     secrets:
       GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
