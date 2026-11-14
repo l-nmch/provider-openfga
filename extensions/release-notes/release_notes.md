@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/l-nmch/provider-openfga/compare/v0.1.3...v0.1.4) (2026-11-12)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/openfga/go-sdk to v0.8.4 ([9cbc115](https://github.com/l-nmch/provider-openfga/commit/9cbc115fc5fa47f14b912242f3ec81ac62907809))
+* **deps:** update module github.com/openfga/go-sdk to v0.8.4 ([a4b3cf4](https://github.com/l-nmch/provider-openfga/commit/a4b3cf45dc64ef15579fb13e296a1fb151e679f7))
+
 ## [0.1.3](https://github.com/l-nmch/provider-openfga/compare/v0.1.2...v0.1.3) (2026-10-29)
 
 
