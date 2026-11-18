@@ -16,7 +16,7 @@ RUN for p in /patches/*.patch; do git apply --verbose "$p" || exit 1; done
 # (govulncheck on the binary). Raised here until upstream does, and tracked by Renovate through the
 # markers: drop an ARG once the pinned upstream version already requires at least that version.
 # renovate: datasource=go depName=golang.org/x/net
-ARG GO_X_NET_VERSION=v0.62.0
+ARG GO_X_NET_VERSION=v0.63.0
 # renovate: datasource=go depName=golang.org/x/text
 ARG GO_X_TEXT_VERSION=v0.44.0
 # renovate: datasource=go depName=google.golang.org/grpc
