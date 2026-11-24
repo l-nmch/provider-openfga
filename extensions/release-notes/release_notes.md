@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/l-nmch/provider-openfga/compare/v0.1.4...v0.1.5) (2026-11-24)
+
+
+### Bug Fixes
+
+* **deps:** update module sigs.k8s.io/controller-runtime to v0.25.3 ([d4d0d23](https://github.com/l-nmch/provider-openfga/commit/d4d0d23f2f4eabec498f68873a401b6f160cc9ec))
+* **deps:** update module sigs.k8s.io/controller-runtime to v0.25.3 ([e14d52b](https://github.com/l-nmch/provider-openfga/commit/e14d52bddf5db6193c1ef85980eadc02b77d1261))
+
 ## [0.1.4](https://github.com/l-nmch/provider-openfga/compare/v0.1.3...v0.1.4) (2026-11-12)
 
 
