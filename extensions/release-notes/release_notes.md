@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.6](https://github.com/l-nmch/provider-openfga/compare/v0.1.5...v0.1.6) (2026-11-27)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major go dependencies ([6570d0f](https://github.com/l-nmch/provider-openfga/commit/6570d0f4a45f372581622a44332196466d800510))
+* **deps:** update all non-major go dependencies ([575e3c6](https://github.com/l-nmch/provider-openfga/commit/575e3c688964be343ffdfdd3b31b6b52348fe26e))
+* **deps:** update kubernetes patches to v0.37.3 ([d3a4ee5](https://github.com/l-nmch/provider-openfga/commit/d3a4ee58d4f6ff9e35e6d9b47090dc92f6c36d17))
+* **deps:** update kubernetes patches to v0.37.3 ([b89edd1](https://github.com/l-nmch/provider-openfga/commit/b89edd1e16244f1cbed9a44b78ea9d5b8155c306))
+
 ## [0.1.5](https://github.com/l-nmch/provider-openfga/compare/v0.1.4...v0.1.5) (2026-11-24)
 
 
